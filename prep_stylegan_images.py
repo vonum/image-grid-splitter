@@ -1,15 +1,40 @@
+import argparse
 import cv2
 import zipfile
 from pathlib import Path
 
 from image_cropper import ImageCropper
 
-ZIPPED_PATH = "zipped_images"
-ORIGINAL_PATH = "original_images"
-OUTPUT_PATH = "images"
-
 def list_files(path, extension="*.jpg"):
   return [str(p) for p in Path(path).rglob(extension)]
+
+ap = argparse.ArgumentParser()
+ap.add_argument(
+  "--zipped_images_path",
+  "-z",
+  type=str,
+  default="zipped_images",
+  help="Path of zipped images"
+)
+ap.add_argument(
+  "--original_images_path",
+  "-o",
+  type=str,
+  default="original_images",
+  help="Path of original images"
+)
+ap.add_argument(
+  "--output_images_path",
+  "-i",
+  type=str,
+  default="images",
+  help="Path of output images"
+)
+
+args = vars(ap.parse_args())
+ZIPPED_PATH = args["zipped_images_path"]
+ORIGINAL_PATH = args["original_images_path"]
+OUTPUT_PATH = args["output_images_path"]
 
 zip_files = list_files(ZIPPED_PATH, extension="*.zip")
 print(f"Unzipping files:\n{zip_files}\n\n")
