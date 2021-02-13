@@ -129,4 +129,5 @@ dmypy.json
 .pyre/
 
 images/
-output/
+zipped_images/
+original_images/
