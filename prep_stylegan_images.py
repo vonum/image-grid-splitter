@@ -1,8 +1,6 @@
 import cv2
 import zipfile
-from os import listdir
-from os.path import isfile, join
-import pdb
+from pathlib import Path
 
 from image_cropper import ImageCropper
 
@@ -10,13 +8,10 @@ ZIPPED_PATH = "zipped_images"
 ORIGINAL_PATH = "original_images"
 OUTPUT_PATH = "images"
 
-def list_files(path):
-  return [
-    join(path, f) for f in listdir(path)
-    if isfile(join(path, f))
-  ]
+def list_files(path, extension="*.jpg"):
+  return [str(p) for p in Path(path).rglob(extension)]
 
-zip_files = list_files(ZIPPED_PATH)
+zip_files = list_files(ZIPPED_PATH, extension="*.zip")
 print(f"Unzipping files:\n{zip_files}\n\n")
 
 for f in zip_files:
@@ -24,11 +19,16 @@ for f in zip_files:
     zip_file.extractall(ORIGINAL_PATH)
 
 original_images = list_files(ORIGINAL_PATH)
-images = [cv2.imread(image) for image in original_images]
-print(f"Cropping images:\n{original_images}\n\n")
 
 cropper = ImageCropper()
-output_images = cropper.crop_images(images)
+batch_size = 50
 
-for i, image in enumerate(output_images):
-  cv2.imwrite(f"{OUTPUT_PATH}/{i}.jpg", image)
+for i in range(0, len(original_images), batch_size):
+  original_images_batch = original_images[i:i+batch_size]
+  images = [cv2.imread(image) for image in original_images_batch]
+  print(f"Cropping images:\n{original_images}\n\n")
+
+  output_images = cropper.crop_images(images)
+
+  for idx, image in enumerate(output_images):
+    cv2.imwrite(f"{OUTPUT_PATH}/{i}-{idx}.jpg", image)
