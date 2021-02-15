@@ -45,7 +45,7 @@ for f in zip_files:
 
 original_images = list_files(ORIGINAL_PATH)
 
-cropper = ImageCropper()
+cropper = ImageCropper(width=1024, height=1024)
 batch_size = 50
 
 for i in range(0, len(original_images), batch_size):
