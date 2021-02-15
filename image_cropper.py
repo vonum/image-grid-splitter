@@ -17,6 +17,9 @@ class ImageCropper:
 
     return output_images
 
+  def resize_images(self, images):
+    return [self.resize_image(image) for image in images]
+
   def crop_image(self, image):
     xstep = image.shape[0] / self.rows
     ystep = image.shape[1] / self.cols
@@ -37,3 +40,7 @@ class ImageCropper:
 
     return final_images
 
+  def resize_image(self, image):
+    return cv2.resize(image,
+                      (self.width, self.height),
+                      interpolation = cv2.INTER_AREA)
