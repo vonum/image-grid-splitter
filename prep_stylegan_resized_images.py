@@ -38,8 +38,8 @@ ap.add_argument(
   help="Width of resized images"
 )
 ap.add_argument(
-  "--heigth",
-  "-h",
+  "--height",
+  "-hh",
   type=int,
   default=1024,
   help="Height of resized images"
