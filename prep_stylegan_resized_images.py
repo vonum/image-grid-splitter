@@ -30,11 +30,27 @@ ap.add_argument(
   default="images",
   help="Path of output images"
 )
+ap.add_argument(
+  "--width",
+  "-w",
+  type=int,
+  default=1024,
+  help="Width of resized images"
+)
+ap.add_argument(
+  "--heigth",
+  "-h",
+  type=int,
+  default=1024,
+  help="Height of resized images"
+)
 
 args = vars(ap.parse_args())
 ZIPPED_PATH = args["zipped_images_path"]
 ORIGINAL_PATH = args["original_images_path"]
 OUTPUT_PATH = args["output_images_path"]
+WIDTH = args["width"]
+HEIGHT = args["height"]
 
 zip_files = list_files(ZIPPED_PATH, extension="*.zip")
 print(f"Unzipping files:\n{zip_files}\n\n")
@@ -45,7 +61,7 @@ for f in zip_files:
 
 original_images = list_files(ORIGINAL_PATH)
 
-cropper = ImageCropper(width=1024, height=1024)
+cropper = ImageCropper(width=WIDTH, height=HEIGHT)
 batch_size = 50
 
 for i in range(0, len(original_images), batch_size):
