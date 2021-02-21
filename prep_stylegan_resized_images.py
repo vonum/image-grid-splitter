@@ -67,7 +67,7 @@ batch_size = 50
 for i in range(0, len(original_images), batch_size):
   original_images_batch = original_images[i:i+batch_size]
   images = [cv2.imread(image) for image in original_images_batch]
-  print(f"Resizing images:\n{original_images}\n\n")
+  print(f"Resizing images:\n{original_images_batch}\n\n")
 
   output_images = cropper.resize_images(images)
 
